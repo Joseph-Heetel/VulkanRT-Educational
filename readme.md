@@ -1,9 +1,11 @@
 # About
-# Folder Structure and File Descriptions
+This repository hosts basic exercises for learning vulkan raytracing. These exercises were established as part of the lecture "Algorithmen für Realtime Rendering" held by Prof. Dr. Dreier, Master of Science "Game Engineering and Visual Computing" at the university of applied sciences Kempten.
 
+The code was taken from [Sascha Willems' Vulkan Examples](https://github.com/SaschaWillems/Vulkan) (available MIT License), and modified by me (also via MIT License).
+
+# Folder Structure and File Descriptions
 ```
 root/
- | - licenses/                      Contains license information
  | - vulkan_rt_übung.docx           File explaining the exercises (german)
  | - download_assets.py             Python script for loading external dependencies, made by Sascha Willems
  | - vulkanrt/
