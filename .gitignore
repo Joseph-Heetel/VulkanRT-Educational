@@ -10,6 +10,15 @@ out/
 # CMakeSettings
 CMakeSettings.json
 
+# CMake directories
+cmake/
+
+# External dependencies
+external/
+
+# Compiled shader files
+*.spv
+
 # Ignore solution directories until they are ready to be released
-vulkanrt-solution1
-vulkanrt-solution2
+vulkanrt-solution1/
+vulkanrt-solution2/
