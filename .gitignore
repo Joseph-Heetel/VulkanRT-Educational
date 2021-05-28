@@ -10,9 +10,6 @@ out/
 # CMakeSettings
 CMakeSettings.json
 
-# CMake directories
-cmake/
-
 # External dependencies
 external/
 
