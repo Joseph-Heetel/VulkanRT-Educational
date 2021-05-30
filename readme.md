@@ -7,11 +7,11 @@ The code was taken from [Sascha Willems' Vulkan Examples](https://github.com/Sas
 ```
 root/
  | - vulkan_rt_übung.docx           File explaining the exercises (german)
- | - download_assets.py             Python script for loading external dependencies, made by Sascha Willems
+ | - vulkan_rt_übung_tipps.txt      Some tips for an easier time (german)
  | - vulkanrt/
       | - base/                     Base library (effectively a C++ Vulkan API wrapper) made by Sascha Willems, with minor edits
       | - data/                     Folder containing runtime data for programs, such as models, textures and precompiled shaders
-      | - external/                 Folder for external dependencies
+      | - external/                 Folder for external code
       | - vulkanrt-reference/       Directory containing the reference project. Slightly modified copy of Sascha Willems' raytracingreflections example
       | - vulkanrt-exercise1/       Directory containing the base project for solving exercise 1
       | - vulkanrt-exercise2/       Directory containing the base project for solving exercise 2
