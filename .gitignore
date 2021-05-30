@@ -1,8 +1,9 @@
 # Visual Studio 2019 cache/options directory
 .vs/
 
-# Shader compilation batch script (built by cmake instead)
+# Shader compilation batch/shell scripts (built by cmake instead)
 compile_all_shaders.bat
+compile_all_shaders.sh
 
 # CMake output directory
 out/
@@ -15,6 +16,9 @@ external/
 
 # Compiled shader files
 *.spv
+
+# DataPath header (built by cmake instead)
+DataPath.h
 
 # Ignore solution directories until they are ready to be released
 vulkanrt-solution1/
