@@ -1,0 +1,2 @@
+Aufgabe 2:
+Laden Sie sich die Beispiele von Sascha Willems herunter. Hier finden sich weitere Raytracing-Beispiele die eine gute Stütze geben können.
