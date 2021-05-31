@@ -23,25 +23,28 @@ set(SHADER_LIST "closesthit.rchit" "miss.rmiss" "raygen.rgen")
 
 set(SHADER_COMPILE_COMMANDS)
 
-foreach (SHADER_TO_COMPILE IN LISTS SHADER_LIST)
-	set (SHADER_COMPILE_COMMANDS "${SHADER_COMPILE_COMMANDS}$ENV{VULKAN_SDK}/Bin/glslc.exe \"${SHADER_SOURCE_DIR}${SHADER_TO_COMPILE}\" -o \"${SHADER_OUTPUT_DIR}${SHADER_TO_COMPILE}.spv\" --target-env=vulkan1.2\n")
-endforeach()
-
 IF(WIN32)
-    configure_file("${CMAKE_CURRENT_LIST_DIR}/compile_all_shaders.bat.in" "${CMAKE_CURRENT_LIST_DIR}/compile_all_shaders.bat")
-ELSE()
-    configure_file("${CMAKE_CURRENT_LIST_DIR}/compile_all_shaders.bat.in" "${CMAKE_CURRENT_LIST_DIR}/compile_all_shaders.sh")
-ENDIF()
+	foreach (SHADER_TO_COMPILE IN LISTS SHADER_LIST)
+		set (SHADER_COMPILE_COMMANDS "${SHADER_COMPILE_COMMANDS}$ENV{VULKAN_SDK}/Bin/glslc.exe \"${SHADER_SOURCE_DIR}${SHADER_TO_COMPILE}\" -o \"${SHADER_OUTPUT_DIR}${SHADER_TO_COMPILE}.spv\" --target-env=vulkan1.2\n")
+	endforeach()
 
+    configure_file("${CMAKE_CURRENT_LIST_DIR}/compile_all_shaders.bat.in" "${CMAKE_CURRENT_LIST_DIR}/compile_all_shaders.bat")
+	execute_process(COMMAND "${CMAKE_CURRENT_LIST_DIR}/compile_all_shaders.bat")
+ELSE()
+	foreach (SHADER_TO_COMPILE IN LISTS SHADER_LIST)
+		set (SHADER_COMPILE_COMMANDS "${SHADER_COMPILE_COMMANDS}glslc \"${SHADER_SOURCE_DIR}${SHADER_TO_COMPILE}\" -o \"${SHADER_OUTPUT_DIR}${SHADER_TO_COMPILE}.spv\" --target-env=vulkan1.2\n")
+	endforeach()
+
+    configure_file("${CMAKE_CURRENT_LIST_DIR}/compile_all_shaders.bat.in" "${CMAKE_CURRENT_LIST_DIR}/compile_all_shaders.sh")
+	execute_process(COMMAND "${CMAKE_CURRENT_LIST_DIR}/compile_all_shaders.sh")
+ENDIF()
 
 
 if(WIN32)
 	add_executable(vulkanrt-exercise2 WIN32 ${MAIN_CPP} ${ALL_SOURCES} ${MAIN_HEADER} ${SHADERS})
 	target_link_libraries(vulkanrt-exercise2 base ${Vulkan_LIBRARY} ${WINLIBS})
-        add_custom_command(TARGET vulkanrt-exercise2 PRE_BUILD COMMAND "${CMAKE_CURRENT_LIST_DIR}/compile_all_shaders.bat")
 else(WIN32)
 	add_executable(vulkanrt-exercise2 ${MAIN_CPP} ${ALL_SOURCES} ${MAIN_HEADER} ${SHADERS})
 	target_link_libraries(vulkanrt-exercise2 base )
-        add_custom_command(TARGET vulkanrt-exercise2 PRE_BUILD COMMAND "${CMAKE_CURRENT_LIST_DIR}/compile_all_shaders.sh")
 endif(WIN32)
 
