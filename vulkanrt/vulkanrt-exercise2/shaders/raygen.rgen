@@ -51,24 +51,20 @@ void main()
 			// Calculate hitposition of current intersect
             const vec4 hitPos = origin + direction * rayPayload.distance;
 
-			// Select correct refrEta and refrNormal by evaluating angle between surface normal versus ray direction (figure out wether we are entering or leaving the medium)
-            const float NdotD = dot(rayPayload.normal, direction.xyz);
+			// TODO: Select correct refrEta and refrNormal by evaluating angle between surface normal versus ray direction (figure out wether we are entering or leaving the medium)
+            const float NdotD = 0.0;								// TODO: Set this
             const float refractionIndex = 1.0f/1.05f;
             vec3 refrNormal = rayPayload.normal;
             float refrEta;
 
-            if(NdotD > 0.0f) {
-                refrNormal = -rayPayload.normal;
-                refrEta = 1.0f / refractionIndex;
+            if(NdotD > 0.0f) {                              // TODO: Set refrEta and refrNormal
             } else {
-                refrNormal = rayPayload.normal;
-                refrEta = refractionIndex;
             }
 
 			// Setting new ray origin slightly further ahead to prevent "looping" the same intersection over and over again
             origin = hitPos + direction * 0.001f;
-			// Calculate next ray direction by using GLSL 'refract' function
-            direction.xyz = refract(direction.xyz, refrNormal, refrEta);
+			// TODO: Calculate next ray direction by using GLSL 'refract' function
+            direction.xyz = vec3(1.0, 0.0, 0.0);
 		} else {
 			color += hitColor;
 			break;
