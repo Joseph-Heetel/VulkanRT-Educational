@@ -23,6 +23,15 @@ option(USE_WAYLAND_WSI "Build the project using Wayland swapchain" OFF)
 
 set(RESOURCE_INSTALL_DIR "" CACHE PATH "Path to install resources to (leave empty for running uninstalled)")
 
+# Speculative fix for Vulkan not supplying GLSLC Exe path
+if ((WIN32) AND ((NOT DEFINED CACHE{Vulkan_GLSLC_EXECUTABLE}) OR ("$CACHE{Vulkan_GLSLC_EXECUTABLE}" STREQUAL "")))
+	set(CACHE{Vulkan_GLSLC_EXECUTABLE} "$ENV{VULKAN_SDK}/Bin/glslc.exe")
+	file(TO_CMAKE_PATH $CACHE{Vulkan_GLSLC_EXECUTABLE} CACHE{Vulkan_GLSLC_EXECUTABLE})
+	message("Manually set <CACHE{Vulkan_GLSLC_EXECUTABLE}> to \"$CACHE{Vulkan_GLSLC_EXECUTABLE}\"")
+else()
+	message("<CACHE{Vulkan_GLSLC_EXECUTABLE}> was automatically set to \"$CACHE{Vulkan_GLSLC_EXECUTABLE}\"")
+endif()
+
 configure_file(${CMAKE_SOURCE_DIR}/LocalDefines.in ${CMAKE_SOURCE_DIR}/LocalDefines.h)
 
 # Use FindVulkan module added with CMAKE 3.7
