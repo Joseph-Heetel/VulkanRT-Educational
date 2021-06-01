@@ -17,6 +17,13 @@ struct ShaderFileInfo
 	fs::path m_OutPathFull{};
 };
 
+inline std::ostream& operator<<(std::ostream& stream, ShaderFileInfo& shaderFileInfo)
+{
+	stream << "Source: " << shaderFileInfo.m_SourcePathFull << " Output: " << shaderFileInfo.m_OutPathFull;
+	return stream;
+}
+
+
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -29,10 +36,14 @@ inline SPV_STR PathToString(const fs::path& path)
 }
 
 // calls the glslc.exe on windows and passes the shader file path
-// returns true if the compilation failed
+// returns false if the compilation failed
 inline bool callGlslCompiler(const ShaderFileInfo& shaderFileInfo)
 {
 	LPCWSTR lpApplicationName = SPIRV_COMPILER_CMD_NAME_W;
+	if (lpApplicationName == nullptr || (int)lpApplicationName[0] == 0)
+	{
+		return false;
+	}
 	// additional information
 	STARTUPINFOW si;
 	PROCESS_INFORMATION pi;
@@ -67,7 +78,7 @@ inline bool callGlslCompiler(const ShaderFileInfo& shaderFileInfo)
 	CloseHandle(pi.hProcess);
 
 	// returns true if an error occurs
-	return exitCode != 0;
+	return exitCode == 0;
 }
 
 #define SPIRV_FILEENDING std::wstring(L".spv")
@@ -79,16 +90,17 @@ inline SPV_STR PathToString(const fs::path& path)
 	return path.string();
 }
 
-// returns true if compilation fails
+// returns false if compilation fails
 inline bool callGlslCompiler(const ShaderFileInfo& shaderFileInfo)
 {
 	std::string command("/bin/glslc --target-spv=spv1.5 " + PathToString(shaderFileInfo.m_SourcePathFull) + " -o " + PathToString(shaderFileInfo.m_OutPathFull));
 	int returnvalue = std::system(command.c_str());
-	return returnvalue != 0;
+	return returnvalue == 0;
 }
 
 #define SPIRV_FILEENDING std::string(".spv")
 #endif
+
 
 class SpirvCompiler
 {
@@ -148,7 +160,6 @@ public:
 		}
 
 		SPV_STR outputFullPath = PathToString(m_OutputDir) + PathToString(fs::relative(shaderFilePath, m_SourceDir)) + SPIRV_FILEENDING;
-
 		ShaderFileInfo shaderFileInfo
 		{
 			shaderFilePath,
@@ -158,22 +169,19 @@ public:
 		if (!needsCompiling(shaderFileInfo))
 		{
 			if (m_Verbose)
-				std::cout << "skipped: " << shaderFilePath << std::endl;
+				std::cout << "skipped: " << shaderFileInfo << std::endl;
 			return true;
 		}
 
-		bool compileResult = callGlslCompiler(shaderFileInfo) == 0;
+		bool compileResult = callGlslCompiler(shaderFileInfo);
 
-		if (m_Verbose)
+		if (m_Verbose && compileResult)
 		{
-			if (compileResult)
-			{
-				std::cout << "compiled: " << shaderFilePath << std::endl;
-			}
+			std::cout << "compiled: " << shaderFileInfo << std::endl;
 		}
 		if (!compileResult)
 		{
-			std::cout << "Failed to compile: " << shaderFilePath << std::endl;
+			std::cout << "Failed to compile: " << shaderFileInfo << std::endl;
 			if (m_ThrowException)
 			{
 				throw new std::runtime_error("Failed to compile a shader!");
@@ -220,4 +228,5 @@ protected:
 	{
 		return str.size() >= prefix.size() && 0 == str.compare(0, prefix.size(), prefix);
 	}
-	};
+};
+

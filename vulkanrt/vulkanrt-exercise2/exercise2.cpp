@@ -69,9 +69,9 @@ public:
 		apiVersion = VK_API_VERSION_1_2;
 
 #ifdef _WIN32
-		SpirvCompiler compiler(std::wstring(PROJECTDIR_EXERCISE2_W) + L"shaders/", getShadersPathW() + SHADER_SUB_DIR_NAME_W + L"/");
+		SpirvCompiler compiler(std::wstring(PROJECTDIR_EXERCISE2_W) + L"shaders/", getShadersPathW() + SHADER_SUB_DIR_NAME_W + L"/", true);
 #else
-		SpirvCompiler compiler(std::string(PROJECTDIR_EXERCISE2) + "shaders/", getShadersPath() + SHADER_SUB_DIR_NAME + "/");
+		SpirvCompiler compiler(std::string(PROJECTDIR_EXERCISE2) + "shaders/", getShadersPath() + SHADER_SUB_DIR_NAME + "/", true);
 #endif
 		compiler.CompileAll();
 	}
