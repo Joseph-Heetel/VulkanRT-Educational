@@ -18,8 +18,10 @@
 
 #include "VulkanRaytracingSample.h"
 #include "VulkanglTFModel.h"
+#include "../SpirvCompiler.hpp"
 
 #define SHADER_SUB_DIR_NAME std::string("exercise2")
+#define SHADER_SUB_DIR_NAME_W std::wstring(L"exercise2")
 
 class VulkanExample : public VulkanRaytracingSample
 {
@@ -54,7 +56,7 @@ public:
 	// This sample is derived from an extended base class that saves most of the ray tracing setup boiler plate
 	VulkanExample() : VulkanRaytracingSample(true)
 	{
-		title = "Ray tracing reflections";
+		title = "VulkanRT Educational Exercise2";
 		settings.overlay = false;
 		timerSpeed *= 0.5f;
 		camera.rotationSpeed *= 0.25f;
@@ -65,6 +67,13 @@ public:
 		enabledInstanceExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
 		enableExtensions();
 		apiVersion = VK_API_VERSION_1_2;
+
+#ifdef _WIN32
+		SpirvCompiler compiler(std::wstring(PROJECTDIR_EXERCISE2_W) + L"shaders/", getShadersPathW() + SHADER_SUB_DIR_NAME_W + L"/");
+#else
+		SpirvCompiler compiler(std::string(PROJECTDIR_EXERCISE2) + "shaders/", getShadersPath() + SHADER_SUB_DIR_NAME + "/");
+#endif
+		compiler.CompileAll();
 	}
 
 	~VulkanExample()

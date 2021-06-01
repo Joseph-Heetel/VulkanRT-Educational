@@ -1,1 +1,0 @@
-#define VK_EXAMPLE_DATA_DIR "${CMAKE_SOURCE_DIR}/data/"

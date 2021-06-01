@@ -112,9 +112,11 @@ private:
 	void createCommandBuffers();
 	void destroyCommandBuffers();
 	std::string shaderDir = "glsl";
+	std::wstring shaderDirW = L"glsl";
 protected:
 	// Returns the path to the root of the glsl or hlsl shader directory.
 	std::string getShadersPath() const;
+	std::wstring getShadersPathW() const;
 
 	// Frame counter to display fps
 	uint32_t frameCounter = 0;

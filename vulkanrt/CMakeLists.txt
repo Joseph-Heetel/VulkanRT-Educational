@@ -23,7 +23,7 @@ option(USE_WAYLAND_WSI "Build the project using Wayland swapchain" OFF)
 
 set(RESOURCE_INSTALL_DIR "" CACHE PATH "Path to install resources to (leave empty for running uninstalled)")
 
-configure_file(${CMAKE_SOURCE_DIR}/base/DataPath.h.in ${CMAKE_SOURCE_DIR}/base/DataPath.h)
+configure_file(${CMAKE_SOURCE_DIR}/LocalDefines.in ${CMAKE_SOURCE_DIR}/LocalDefines.h)
 
 # Use FindVulkan module added with CMAKE 3.7
 if (NOT CMAKE_VERSION VERSION_LESS 3.7.0)
@@ -110,7 +110,7 @@ endif()
 
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # END-REGION Sascha Willems

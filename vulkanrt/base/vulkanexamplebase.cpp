@@ -7,7 +7,6 @@
 */
 
 #include "vulkanexamplebase.h"
-#include "DataPath.h"
 
 #if (defined(VK_USE_PLATFORM_MACOS_MVK) && defined(VK_EXAMPLE_XCODE_GENERATED))
 #include <Cocoa/Cocoa.h>
@@ -166,6 +165,11 @@ void VulkanExampleBase::destroyCommandBuffers()
 std::string VulkanExampleBase::getShadersPath() const
 {
 	return getAssetPath() + "shaders/" + shaderDir + "/";
+}
+
+std::wstring VulkanExampleBase::getShadersPathW() const
+{
+	return getAssetPathW() + L"shaders/" + shaderDirW + L"/";
 }
 
 void VulkanExampleBase::createPipelineCache()
