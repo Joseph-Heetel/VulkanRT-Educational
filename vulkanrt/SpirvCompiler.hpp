@@ -77,7 +77,7 @@ inline bool callGlslCompiler(const ShaderFileInfo& shaderFileInfo)
 	CloseHandle(pi.hThread);
 	CloseHandle(pi.hProcess);
 
-	// returns true if an error occurs
+	// returns false if an error occurs
 	return exitCode == 0;
 }
 
@@ -188,6 +188,7 @@ public:
 			}
 		}
 
+		// If you get a runtime exception here, check console for shader compile error messages
 		return compileResult;
 	}
 
